@@ -1,0 +1,46 @@
+<?php $photos = $block->getPhotos(); ?>
+
+<div id="slider" class="flexslider">
+    <ul class="slides">
+        <?php foreach ($photos as $photo): ?>
+            <li>
+                <img src='<?php echo $photo['url'] ?>' alt="Demo">
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<div id="carousel" class="flexslider">
+    <ul class="slides">
+        <?php foreach ($photos as $photo): ?>
+            <li>
+                <img src='<?php echo $photo['url'] ?>' alt="Demo">
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    require(['jquery','flexslider'],function($){
+        $(window).ready(function() {
+            // The slider being synced must be initialized first
+            $('#carousel').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: true,
+                slideshow: false,
+                itemWidth: 210,
+                itemMargin: 5,
+                asNavFor: '#slider'
+            });
+
+            $('#slider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: true,
+                slideshow: false,
+                sync: "#carousel"
+            });
+        });
+    });
+</script>

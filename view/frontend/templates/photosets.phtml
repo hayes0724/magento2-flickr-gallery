@@ -1,0 +1,18 @@
+<?php
+$photos = $block->getActivePhotosets();
+?>
+<div class="row">
+    <ul class="polaroids large-4 small-2">
+    <?php foreach ($photos as $photo): ?>
+        <?php $title = $photo['title']; $url = $photo['url']; $set = $block->cleanUrl($title); ?>
+        <li>
+            <a href="<?php echo "gallery/" . $set ?>" title="<?php echo $title; ?>">
+                <img src="<?php echo $url; ?>">
+            </a>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--* @author Hayes Marketing-->
+<!--* @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketingfirm.com)-->
+<!--* @package HayesMarketing_Gallery-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="gallery" translate="label" sortOrder="1000">
+            <label>Hayes Marketing Gallery</label>
+        </tab>
+        <section id="gallery_settings" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Settings</label>
+            <tab>gallery</tab>
+            <resource>HayesMarketing_Gallery::config</resource>
+            <!-- Flickr API -->
+            <group id="flickr" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Flickr API</label>
+                <field id="api" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Key</label>
+                </field>
+                <field id="secret" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Secret Key</label>
+                </field>
+                <field id="id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User ID</label>
+                </field>
+            </group>
+            <!-- Albums -->
+            <group id="albums" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Flickr Photosets</label>
+                <field id="photosets" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Photosets</label>
+                    <source_model>HayesMarketing\Gallery\Model\Config\Source\Photosets</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
