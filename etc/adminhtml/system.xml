@@ -31,6 +31,19 @@
                     <label>Select Photosets</label>
                     <source_model>HayesMarketing\Gallery\Model\Config\Source\Photosets</source_model>
                 </field>
+                <field id="max_size" translate="label comment" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Max Size</label>
+                    <comment>Will attempt to get this size photo from flickr or next largest</comment>
+                    <source_model>HayesMarketing\Gallery\Model\Config\Source\Sizes</source_model>
+                </field>
+                <field id="gallery_sync" translate="label comment" type="button" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>HayesMarketing\Gallery\Block\System\Config\Sync</frontend_model>
+                    <label>Sync Photos</label>
+                </field>
+                <field id="last_update" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Last Updated</label>
+                    <frontend_model>HayesMarketing\Gallery\Block\System\Config\Form\Field\Disable</frontend_model>
+                </field>
             </group>
         </section>
     </system>

@@ -6,58 +6,55 @@
  */
 namespace HayesMarketing\Gallery\Block;
 
-class View extends \Magento\Framework\View\Element\Template
+use HayesMarketing\Gallery\Model\ResourceModel\Photoset\Collection as PhotoCollection;
+use HayesMarketing\Gallery\Model\Api\Data\PhotoInterface;
+
+class View extends \Magento\Framework\View\Element\Template implements
+    \Magento\Framework\DataObject\IdentityInterface
 {
     protected $helper;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \HayesMarketing\Gallery\Helper\Flickr $helper,
+        \HayesMarketing\Gallery\Model\ResourceModel\Photo\CollectionFactory $photoCollectionFactory,
         array $data = []
     )
     {
         parent::__construct($context, $data);
-        $this->_helper = $helper;
+        $this->_photoCollectionFactory = $photoCollectionFactory;
     }
 
     /**
-     * @return array
+     * @return \HayesMarketing\Gallery\Model\ResourceModel\Photo\Collection
      */
     public function getPhotos()
     {
-        $clean = $this->getGalleryName();
-        $sets = $this->_helper->getPhotosetInfo();
-        $match_id = "";
-        foreach ($sets as $set)
-        {
-            $gallery_url = $set['clean'];
-            $gallery_id = $set['set'];
-            if ($clean == $gallery_url)
-            {
-                $match_id = $gallery_id;
-            }
+        $url = $this->getGalleryUrl();
+        if (!$this->hasData('photo')) {
+            $photo = $this->_photoCollectionFactory->create()->addFilter('album_url', $url);
+            $this->setData('photo', $photo);
         }
-        $photoSet = $this->_helper->photosets_getPhotos($match_id)['photoset'];
-        foreach ($photoSet['photo'] as $photo)
-        {
-            $id = $photo['id'];
-            $title = $photo['title'];
-            $url = $this->_helper->getPhotoInfo($id, 6);
-            $set = ['id' => $id, 'title' => $title, 'url' => $url];
-            $photos[] = $set;
-        }
-        return $photos;
+        return $this->getData('photo');
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
-    public function getGalleryName()
+    public function getGalleryUrl()
     {
-        $gallery_id = $this->getRequest()->getParams();
-        return $gallery_id['gallery_id'];
+        $gallery_url = $this->getRequest()->getParams();
+        return $gallery_url['gallery_url'];
     }
 
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [\HayesMarketing\Gallery\Model\Photo::CACHE_TAG . '_' . 'list'];
+    }
 }
 
 

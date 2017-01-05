@@ -1,16 +1,14 @@
-<?php
-$photos = $block->getActivePhotosets();
-?>
+<?php /** @var $block \HayesMarketing\Gallery\Block\Photoset */ ?>
 <div class="row">
     <ul class="polaroids large-4 small-2">
-    <?php foreach ($photos as $photo): ?>
-        <?php $title = $photo['title']; $url = $photo['url']; $set = $block->cleanUrl($title); ?>
-        <li>
-            <a href="<?php echo "gallery/" . $set ?>" title="<?php echo $title; ?>">
-                <img src="<?php echo $url; ?>">
-            </a>
-        </li>
-    <?php endforeach; ?>
+        <?php foreach ($block->getPhotosets() as $photoset): ?>
+            <li>
+                <?php /** @var $photoset \HayesMarketing\Gallery\Model\Photoset */ ?>
+                <a href="<?php echo "gallery/" . $photoset->getUrlKey() ?>" title="<?php echo $photoset->getTitle(); ?>">
+                    <img src="<?php echo $photoset->getPhotoUrl() ?>">
+                </a>
+            </li>
+        <?php endforeach; ?>
     </ul>
 </div>
 

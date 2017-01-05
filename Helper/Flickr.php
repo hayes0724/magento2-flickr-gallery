@@ -50,6 +50,7 @@ class Flickr extends AbstractHelper
     }
 
     /**
+     * Gets the currently selected photosets from configuration
      * @return array
      */
     public function getActivePhotosets()
@@ -59,13 +60,74 @@ class Flickr extends AbstractHelper
         return $arr;
     }
 
-                                                /*Helper Functions*/
+    /**
+     * @return integer
+     */
+    public function getMaxSize()
+    {
+        $maxSize = $this->scopeConfig->getValue('gallery_settings/albums/max_size', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $maxSize;
+    }
 
+    /**
+     * Gets all photosets from flickr
+     * @return array
+     */
+    public function getAllPhotosets()
+    {
+        $photosets = $this->photosets_getList();
+        $data = [];
+        if ($photosets['stat'] == 'ok')
+        {
+            foreach ($photosets['photosets']['photoset'] as $photoset)
+            {
+                $data[] = $photoset['id'];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Gets last date/time the gallery was synced
+     * @return string
+     */
+    public function getLastUpdateTime()
+    {
+        $updateTime = $this->scopeConfig->getValue('gallery_settings/albums/last_update', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $updateTime;
+    }
+
+                                                /*Helper Functions*/
     /**
      * Gets photoset ID from system config, connects to Flickr API, returns photoset info array
      * @return array
      */
-    public function getPhotosetInfo()
+    public function getAllPhotosetInfo()
+    {
+        $arr = $this->getAllPhotosets();
+        $info = [];
+        foreach ($arr as $photosetID)
+        {
+            $info[] = $this->photosets_getInfo($photosetID);
+        }
+        $photos = [];
+        foreach ($info as $photoset)
+        {
+            $setID = $photoset['photoset']['id'];
+            $photoID = $photoset['photoset']['primary'];
+            $title = $photoset['photoset']['title']['_content'];
+            $cleanUrl = $this->cleanUrl($title);
+            $set = ['id' => $photoID, 'title' => $title, 'url' => 'abc456', 'set' => $setID, 'clean' => $cleanUrl];
+            $photos[] = $set;
+        }
+        return $photos;
+    }
+    /**
+     * Gets photoset ID from system config, connects to Flickr API, returns photoset info array
+     * @return array
+     */
+    //
+    public function getPhotosetInfo() //@TODO: Rename getActivePhotosetInfo()
     {
         $arr = $this->getActivePhotosets();
         $info = [];
@@ -79,7 +141,7 @@ class Flickr extends AbstractHelper
             $setID = $photoset['photoset']['id'];
             $photoID = $photoset['photoset']['primary'];
             $title = $photoset['photoset']['title']['_content'];
-            $url = $this->getPhotoInfo($photoID, 6);
+            $url = $this->getPhotoUrl($photoID);
             $cleanUrl = $this->cleanUrl($title);
             $set = ['id' => $photoID, 'title' => $title, 'url' => $url, 'set' => $setID, 'clean' => $cleanUrl];
             $photos[] = $set;
@@ -89,18 +151,20 @@ class Flickr extends AbstractHelper
 
     /**
      * Input photo ID, connects to Flickr API, returns photo url
-     * @param $photoID
+     * @param int $photoID
      * @param int $size
      * @return mixed
      */
-    public function getPhotoInfo($photoID, $size = 0) //TODO: rename getPhotoUrl
+    public function getPhotoUrl($photoID)
     {
+        $size = $this->getMaxSize();
         $sizes = $this->photos_getSizes($photoID);
-        if ($size != 0)
+        $maxSize = count($sizes) - 1;
+        if ($size > $maxSize)
         {
-            $sizes = $sizes[$size];
+            $size = $maxSize;
         }
-        $url = $sizes['source'];
+        $url = $sizes[$size]['source'];
         return $url;
     }
 
@@ -111,7 +175,8 @@ class Flickr extends AbstractHelper
     public function cleanUrl($url)
     {
         $lower = strtolower($url);
-        $clean = str_replace(" ", "-", $lower);
+        $dashOnly = str_replace([" ", "_"], "-", $lower);
+        $clean = str_replace(["(",")"], "", $dashOnly);
         return $clean;
     }
 
@@ -190,8 +255,7 @@ class Flickr extends AbstractHelper
         return $response;
     }
 
-    /**
-     * @param $photosetID
+    /**6
      * @return mixed
      */
     public function photosets_getPhotos($photosetID)

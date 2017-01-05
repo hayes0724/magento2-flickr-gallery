@@ -1,10 +1,10 @@
-<?php $photos = $block->getPhotos(); ?>
-
+<?php /** @var $block \HayesMarketing\Gallery\Block\View */ ?>
 <div id="slider" class="flexslider">
     <ul class="slides">
-        <?php foreach ($photos as $photo): ?>
+        <?php foreach ($block->getPhotos() as $photo): ?>
+            <?php /** @var $photo \HayesMarketing\Gallery\Model\Photo */ ?>
             <li>
-                <img src='<?php echo $photo['url'] ?>' alt="Demo">
+                <img src='<?php echo $photo->getPhotoUrl() ?>' alt="Demo">
             </li>
         <?php endforeach; ?>
     </ul>
@@ -12,9 +12,9 @@
 
 <div id="carousel" class="flexslider">
     <ul class="slides">
-        <?php foreach ($photos as $photo): ?>
+        <?php foreach ($block->getPhotos() as $photo): ?>
             <li>
-                <img src='<?php echo $photo['url'] ?>' alt="Demo">
+                <img src='<?php echo $photo->getPhotoUrl(); ?>' alt="Demo">
             </li>
         <?php endforeach; ?>
     </ul>

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Custom router class that routes to main gallery page and photosets by name
+ *
  * @author Hayes Marketing
  * @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketingfirm.com)
  * @package HayesMarketing_Gallery
@@ -26,17 +28,19 @@ class Router implements \Magento\Framework\App\RouterInterface
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
         $url = $request->getPathInfo();
-        $gallery_id = $this->trimUrl($url);
+        $gallery_url = $this->trimUrl($url);
         $request->setModuleName('gallery')
             ->setControllerName('view')
             ->setActionName('index')
-            ->setParam('gallery_id', $gallery_id);
+            ->setParam('gallery_url', $gallery_url);
         $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $url);
 
         return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
     }
 
     /**
+     * Remove /gallery & /gallery/ from url and return clean gallery name
+     *
      * @param $haystack
      * @return mixed
      */
