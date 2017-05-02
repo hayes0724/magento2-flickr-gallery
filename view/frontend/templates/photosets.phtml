@@ -4,7 +4,7 @@
         <?php foreach ($block->getPhotosets() as $photoset): ?>
             <li>
                 <?php /** @var $photoset \HayesMarketing\Gallery\Model\Photoset */ ?>
-                <a href="<?php echo "gallery/" . $photoset->getUrlKey() ?>" title="<?php echo $photoset->getTitle(); ?>">
+                <a href="<?php echo "/gallery/" . $photoset->getUrlKey() ?>" title="<?php echo $photoset->getTitle(); ?>">
                     <img src="<?php echo $photoset->getPhotoUrl() ?>">
                 </a>
             </li>
