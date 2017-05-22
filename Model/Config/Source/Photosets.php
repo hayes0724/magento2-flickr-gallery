@@ -3,7 +3,7 @@
  * Custom source for enabling/disabling photosets
  *
  * @author Hayes Marketing
- * @copyright Copyright (c) 2017 Hayes Marketing (http://www.hayesmarketingfirm.com)
+ * @copyright Copyright (c) 2017 Hayes Marketing (http://www.hayesmarketing.io)
  * @package HayesMarketing_Gallery
 */
 

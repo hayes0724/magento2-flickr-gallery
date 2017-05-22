@@ -3,7 +3,7 @@
  * Custom router class that routes to main gallery page and photosets by name
  *
  * @author Hayes Marketing
- * @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketingfirm.com)
+ * @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketing.io)
  * @package HayesMarketing_Gallery
  */
 namespace HayesMarketing\Gallery\Controller;

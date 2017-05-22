@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--* @author Hayes Marketing-->
-<!--* @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketingfirm.com)-->
+<!--* @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketing.io)-->
 <!--* @package HayesMarketing_Gallery-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <!--Use router 'standard' for frontend route-->

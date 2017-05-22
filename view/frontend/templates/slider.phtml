@@ -1,9 +1,14 @@
 <?php /** @var $block \HayesMarketing\Gallery\Block\View */ ?>
+
 <div id="slider" class="flexslider">
     <ul class="slides">
         <?php foreach ($block->getPhotos() as $photo): ?>
             <?php /** @var $photo \HayesMarketing\Gallery\Model\Photo */ ?>
             <li>
+                <div class="main-photo">
+                    <p class="photo-title"> <?php echo $photo->getTitle() ?> </p>
+                    <p>Tag One</p>
+                </div>
                 <img src='<?php echo $photo->getPhotoUrl() ?>' alt="Demo">
             </li>
         <?php endforeach; ?>

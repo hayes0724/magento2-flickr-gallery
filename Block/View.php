@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Hayes Marketing
- * @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketingfirm.com)
+ * @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketing.io)
  * @package HayesMarketing_Gallery
  */
 namespace HayesMarketing\Gallery\Block;
@@ -25,6 +25,16 @@ class View extends \Magento\Framework\View\Element\Template implements
     }
 
     /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [\HayesMarketing\Gallery\Model\Photo::CACHE_TAG . '_' . 'list'];
+    }
+
+    /**
      * @return \HayesMarketing\Gallery\Model\ResourceModel\Photo\Collection
      */
     public function getPhotos()
@@ -40,20 +50,10 @@ class View extends \Magento\Framework\View\Element\Template implements
     /**
      * @return integer
      */
-    public function getGalleryUrl()
+    private function getGalleryUrl()
     {
         $gallery_url = $this->getRequest()->getParams();
         return $gallery_url['gallery_url'];
-    }
-
-    /**
-     * Return identifiers for produced content
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return [\HayesMarketing\Gallery\Model\Photo::CACHE_TAG . '_' . 'list'];
     }
 }
 
