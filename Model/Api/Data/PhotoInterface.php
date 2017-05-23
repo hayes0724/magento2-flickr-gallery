@@ -20,6 +20,8 @@ interface PhotoInterface
     const TITLE         = 'title';
     const CREATION_TIME = 'creation_time';
     const UPDATE_TIME   = 'update_time';
+    const TAGS          = 'tags';
+
     /**
      * Get ID
      *
@@ -68,6 +70,13 @@ interface PhotoInterface
      * @return string|null
      */
     public function getUpdateTime();
+
+    /**
+     * Get photo tags
+     *
+     * @return string|null
+     */
+    public function getTags();
 
     /**
      * Set ID
@@ -128,6 +137,14 @@ interface PhotoInterface
      * @return HayesMarketing\Gallery\Model\Api\Data\PhotoInterface
      */
     public function setUpdateTime($updateTime);
+
+    /**
+     * Set photo tags
+     *
+     * @param string $tags
+     * @return HayesMarketing\Gallery\Model\Api\Data\PhotoInterface
+     */
+    public function setTags($tags);
 
 }
 

@@ -114,7 +114,17 @@ class Photo extends \Magento\Framework\Model\AbstractModel implements PhotoInter
     {
         return $this->getData(self::UPDATE_TIME);
     }
-    
+
+    /**
+     * Get photo tags
+     *
+     * @return string|null
+     */
+    public function getTags()
+    {
+        return $this->getData(self::TAGS);
+    }
+
 
     /**
      * Set ID
@@ -191,5 +201,16 @@ class Photo extends \Magento\Framework\Model\AbstractModel implements PhotoInter
     {
         return $this->setData(self::UPDATE_TIME, $update_time);
     }
-    
+
+    /**
+     * Set photo tags
+     *
+     * @param string $tags
+     * @return HayesMarketing\Gallery\Model\Api\Data\PhotoInterface
+     */
+    public function setTags($tags)
+    {
+        return $this->setData(self::TAGS, $tags);
+    }
+
 }

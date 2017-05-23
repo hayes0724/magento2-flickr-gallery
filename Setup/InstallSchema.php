@@ -15,7 +15,7 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
         $installer = $setup;
         $installer->startSetup();
 
-        //START table 'hayesmarketing_gallery_photosets' setup
+
         $table = $installer->getConnection()->newTable(
             $installer->getTable('hayesmarketing_gallery_photosets')
         )->addColumn(
@@ -68,9 +68,7 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
             'Is Active'
         );
         $installer->getConnection()->createTable($table);
-        //END table 'hayesmarketing_gallery_photosets' setup
 
-        //START table 'hayesmarketing_gallery_photos' setup
         $table = $installer->getConnection()->newTable(
             $installer->getTable('hayesmarketing_gallery_photos')
         )->addColumn(

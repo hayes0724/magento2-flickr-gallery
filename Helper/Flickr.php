@@ -99,7 +99,6 @@ class Flickr extends AbstractHelper
         return $data;
     }
 
-
     /**
      * Gets all photoset ID's from flickr
      * @return array
@@ -143,7 +142,7 @@ class Flickr extends AbstractHelper
         return $photos;
     }
     /**
-     * Gets photoset ID from system config, connects to Flickr API, returns photoset info array
+     * Gets ACTIVE photoset ID from system config, connects to Flickr API, returns photoset info array
      * @return array
      */
     //
@@ -186,6 +185,22 @@ class Flickr extends AbstractHelper
         }
         $url = $sizes[$size]['source'];
         return $url;
+    }
+
+    /**
+     * Input PhotoID and returns array with all tag names associated with it
+     * @param $photoID
+     * @return array
+     */
+    public function getPhotoTags($photoID) {
+        $data = $this->tags_getListPhoto($photoID);
+        //$tags = $data['photo']['tags'];
+        $tags = $data['tag'];
+        $names = [];
+        foreach ($tags as $tag) {
+            $names[] = $tag['raw'];
+        }
+        return $names;
     }
 
     /**
@@ -278,7 +293,7 @@ class Flickr extends AbstractHelper
     /**6
      * @return mixed
      */
-    private function photosets_getPhotos($photosetID)
+    public function photosets_getPhotos($photosetID) // @TODO: Make private
     {
         $userID = $this->getUserID();
         $param = ['user_id' => $userID, 'photoset_id' => $photosetID];

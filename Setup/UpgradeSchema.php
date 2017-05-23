@@ -17,23 +17,138 @@ class UpgradeSchema implements  UpgradeSchemaInterface
 {
     public function upgrade(SchemaSetupInterface $setup,
                             ModuleContextInterface $context){
-        $setup->startSetup();
-        $tableName = $setup->getTable('hayesmarketing_gallery_photos');
-        // Check if the table already exists
-        if ($setup->getConnection()->isTableExists($tableName) == true) {
-            // Declare data
-            $columns = [
-                'tags' => [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                    'nullable' => true,
-                    'comment' => 'Photo Tags',
-                ],
-            ];
-            $connection = $setup->getConnection();
-            foreach ($columns as $name => $definition) {
-                $connection->addColumn($tableName, $name, $definition);
-            }
 
+        $setup->startSetup();
+
+        /**
+         *  Version 0.0.3
+         */
+        if (version_compare($context->getVersion(), '0.0.3') < 0) {
+            /**
+             *  Create Tags table
+             */
+            $table = $setup->getConnection()->newTable(
+                $setup->getTable('hayesmarketing_gallery_tags')
+            )->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'id'
+            )->addColumn(
+                'tag_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                255,
+                ['unsigned' => true, 'nullable' => false],
+                'Tag ID'
+            )->addColumn(
+                'name',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                [],
+                'Name'
+            )->addColumn(
+                'creation_time',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [ 'nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT, ],
+                'Creation Time'
+            )->addColumn(
+                'update_time',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [ 'nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE, ],
+                'Modification Time'
+            )->setComment(
+                'Tags Table'
+            );
+            $setup->getConnection()->createTable($table);
+
+            /**
+             *  Create Photo Tags table (stores photo => tags relation)
+             */
+            $table = $setup->getConnection()->newTable(
+                $setup->getTable('hayesmarketing_gallery_phototags')
+            )->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'id'
+            )->addColumn(
+                'photo_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'Photo ID'
+            )->addColumn(
+                'tag_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'Tag ID'
+            )->addColumn(
+                'creation_time',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [ 'nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT, ],
+                'Creation Time'
+            )->addColumn(
+                'update_time',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [ 'nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE, ],
+                'Modification Time'
+            )->setComment(
+                'Photo Tags Table'
+            );
+            $setup->getConnection()->createTable($table);
+
+            /**
+             *  Create Photo Photosets table (stores photo => photoset relation)
+             */
+            $table = $setup->getConnection()->newTable(
+                $setup->getTable('hayesmarketing_gallery_photoset_photo')
+            )->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'id'
+            )->addColumn(
+                'photo_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'Photo ID'
+            )->addColumn(
+                'photoset_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'Tag ID'
+            )->addColumn(
+                'url_key',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                [ 'nullable' => false],
+                'Photoset URL Key'
+            )->addColumn(
+                'creation_time',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [ 'nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT, ],
+                'Creation Time'
+            )->addColumn(
+                'update_time',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                [ 'nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE, ],
+                'Modification Time'
+            )->setComment(
+                'Photo Tags Table'
+            );
+            $setup->getConnection()->createTable($table);
         }
         $setup->endSetup();
     }

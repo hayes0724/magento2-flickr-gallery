@@ -1,15 +1,19 @@
-<?php /** @var $block \HayesMarketing\Gallery\Block\View */ ?>
+<?php
+/** @var $block \HayesMarketing\Gallery\Block\View */
+/** @var $photo \HayesMarketing\Gallery\Model\Photo */
+?>
 
 <div id="slider" class="flexslider">
     <ul class="slides">
         <?php foreach ($block->getPhotos() as $photo): ?>
-            <?php /** @var $photo \HayesMarketing\Gallery\Model\Photo */ ?>
             <li>
-                <p class="photo-title"> <?php echo $photo->getTitle() ?> </p>
+                <h2 class="photo-title"> <?php echo $photo->getTitle() ?> </h2>
                 <div class="photo-tags">
                     <ul>
-                        <li><a href="#">Tag One</a></li>
-                        <li><a href="#">Tag Two</a></li>
+                        <?php $tags = explode(',', $photo->getTags()); ?>
+                        <?php foreach ($tags as $tag): ?>
+                            <li><a href=""> <?php echo $tag; ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <img src='<?php echo $photo->getPhotoUrl() ?>' alt="Demo">

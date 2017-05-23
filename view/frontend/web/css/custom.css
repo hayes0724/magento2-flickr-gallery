@@ -51,7 +51,28 @@
     padding-left: 0;
 }
 
+.photo-tags a {
+    padding: 0 10px;
+    line-height: 21px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    color: #212124;
+    font-weight: 400;
+}
 
+.photo-tags li {
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    max-width: 96%;
+    margin: 0 5px 5px 0;
+    background-color: #cfd6d9;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
 
 
 

@@ -124,15 +124,18 @@ class Sync extends Action
      * @param $photosetId integer
      * @return array $photos
      */
-    public function setPhotos($photos, $clean)
+    public function setPhotos($photos, $clean) // TODO: Change variable names
     {
+
         foreach ($photos as $photo)
         {
+            $tags = $this->helper->getPhotoTags($photo['id']);
             $photoSets = $this->photoFactory->create();
             $photoSets->setData('photo_id', $photo['id']);
             $photoSets->setData('album_url', $clean);
             $photoSets->setData('title', $photo['title']);
             $photoSets->setData('photo_url', $photo['url']);
+            $photoSets->setData('tags', implode(',',$tags));
             $photoSets->save();
         }
         return $photos;
@@ -144,7 +147,7 @@ class Sync extends Action
      */
     public function getPhotos($id)
     {
-            $photoSet = $this->helper->photosets_getPhotos($id)['photoset'];
+            $photoSet = $this->helper->photosets_getPhotos($id)['photoset']; // @TODO: Use public helper function
             $photos = [];
             foreach ($photoSet['photo'] as $photo)
             {

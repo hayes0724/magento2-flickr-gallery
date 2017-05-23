@@ -3,5 +3,5 @@
 <!--* @copyright Copyright (c) 2016 Hayes Marketing (http://www.hayesmarketing.io)-->
 <!--* @package HayesMarketing_Gallery-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="HayesMarketing_Gallery" setup_version="0.0.2"></module>
+    <module name="HayesMarketing_Gallery" setup_version="0.0.3"></module>
 </config>
