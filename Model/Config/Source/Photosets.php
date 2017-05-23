@@ -19,20 +19,13 @@ class Photosets implements \Magento\Framework\Option\ArrayInterface
     {
         $this->helper = $helper;
     }
+
     /**
      * @return array
      */
     public function toOptionArray()
     {
-        $photosets = $this->helper->photosets_getList();
-        $data = [];
-        if ($photosets['stat'] == 'ok')
-        {
-            foreach ($photosets['photosets']['photoset'] as $photoset)
-            {
-                $data[] = ['value' => $photoset['id'],'label' => $photoset['title']['_content']];
-            }
-        }
+        $data = $this->helper->getPhotosetList();
         return $data;
     }
 }

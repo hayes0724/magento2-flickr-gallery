@@ -35,10 +35,22 @@
     overflow: visible;
 }
 
-.main-photo p {
-    float: left;
-    padding-right: ;
+.photo-title {
+    text-align: center;
 }
+
+.photo-tags {
+    text-align: center;
+}
+.photo-tags li {
+    display: inline-block;
+}
+
+.photo-tags ul {
+    display: inline-block;
+    padding-left: 0;
+}
+
 
 
 

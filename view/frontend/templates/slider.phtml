@@ -5,9 +5,12 @@
         <?php foreach ($block->getPhotos() as $photo): ?>
             <?php /** @var $photo \HayesMarketing\Gallery\Model\Photo */ ?>
             <li>
-                <div class="main-photo">
-                    <p class="photo-title"> <?php echo $photo->getTitle() ?> </p>
-                    <p>Tag One</p>
+                <p class="photo-title"> <?php echo $photo->getTitle() ?> </p>
+                <div class="photo-tags">
+                    <ul>
+                        <li><a href="#">Tag One</a></li>
+                        <li><a href="#">Tag Two</a></li>
+                    </ul>
                 </div>
                 <img src='<?php echo $photo->getPhotoUrl() ?>' alt="Demo">
             </li>

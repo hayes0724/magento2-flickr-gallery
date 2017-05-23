@@ -70,7 +70,38 @@ class Flickr extends AbstractHelper
     }
 
     /**
-     * Gets all photosets from flickr
+     * Gets last date/time the gallery was synced
+     * @return string
+     */
+    public function getLastUpdateTime()
+    {
+        $updateTime = $this->scopeConfig->getValue('gallery_settings/albums/last_update', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $updateTime;
+    }
+
+
+                                            /*Helper Functions*/
+
+    /**
+     * Gets all photoset ID's from flickr, format for mangento admin
+     * @return array
+     */
+    public function getPhotosetList() {
+        $photosets = $this->photosets_getList();
+        $data = [];
+        if ($photosets['stat'] == 'ok')
+        {
+            foreach ($photosets['photosets']['photoset'] as $photoset)
+            {
+                $data[] = ['value' => $photoset['id'],'label' => $photoset['title']['_content']];
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Gets all photoset ID's from flickr
      * @return array
      */
     public function getAllPhotosets()
@@ -87,17 +118,6 @@ class Flickr extends AbstractHelper
         return $data;
     }
 
-    /**
-     * Gets last date/time the gallery was synced
-     * @return string
-     */
-    public function getLastUpdateTime()
-    {
-        $updateTime = $this->scopeConfig->getValue('gallery_settings/albums/last_update', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        return $updateTime;
-    }
-
-                                                /*Helper Functions*/
     /**
      * Gets photoset ID from system config, connects to Flickr API, returns photoset info array
      * @return array
@@ -215,17 +235,17 @@ class Flickr extends AbstractHelper
         return $response;
     }
 
-                                            /*Flickr method calls*/
+                                            /*Flickr API calls*/
 
     /*
-    All Flickr methods have a matching function call for example with flickr removed
-    flickr.photosets.getList => photosets_getList()
+     * Flickr methods use a matching function call
+     * flickr.photosets.getList => photosets_getList()
     */
 
     /**
      * @return mixed
      */
-    public function flickrEcho()
+    private function flickrEcho()
     {
         $response = $this->post('flickr.test.echo');
         return $response;
@@ -235,7 +255,7 @@ class Flickr extends AbstractHelper
     /**
      * @return mixed
      */
-    public function photosets_getList()
+    private function photosets_getList()
     {
         $userID = $this->getUserID();
         $param = ['user_id' => $userID];
@@ -247,7 +267,7 @@ class Flickr extends AbstractHelper
      * @param $photosetID
      * @return mixed
      */
-    public function photosets_getInfo($photosetID)
+    private function photosets_getInfo($photosetID)
     {
         $userID = $this->getUserID();
         $param = ['user_id' => $userID, 'photoset_id' => $photosetID];
@@ -258,7 +278,7 @@ class Flickr extends AbstractHelper
     /**6
      * @return mixed
      */
-    public function photosets_getPhotos($photosetID)
+    private function photosets_getPhotos($photosetID)
     {
         $userID = $this->getUserID();
         $param = ['user_id' => $userID, 'photoset_id' => $photosetID];
@@ -272,13 +292,26 @@ class Flickr extends AbstractHelper
      * @param $photoID
      * @return mixed
      */
-    public function photos_getSizes($photoID)
+    private function photos_getSizes($photoID)
     {
         $param = ['photo_id' => $photoID];
         $response = $this->post('flickr.photos.getSizes', $param);
         return $response['sizes']['size'];
     }
 
+
+                                        /* Tag Methods */
+
+    /**
+     * Get the tag list for a given photo ID.
+     * @param $photoID
+     * @return mixed
+     */
+    private function tags_getListPhoto($photoID) {
+        $param = ['photo_id' => $photoID];
+        $response = $this->post('flickr.tags.getListPhoto', $param);
+        return $response['photo']['tags'];
+    }
 
 }
 
