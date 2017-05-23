@@ -149,6 +149,25 @@ class UpgradeSchema implements  UpgradeSchemaInterface
                 'Photo Tags Table'
             );
             $setup->getConnection()->createTable($table);
+
+
+            if (version_compare($context->getVersion(), '0.0.4') < 0) {
+                $eavTable = $setup->getTable('hayesmarketing_gallery_photos');
+
+                $columns = [
+                    'tags' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'Photo Tags',
+                    ],
+                ];
+
+                $connection = $installer->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($eavTable, $name, $definition);
+                }
+            }
+
         }
         $setup->endSetup();
     }
