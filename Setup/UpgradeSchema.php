@@ -162,7 +162,7 @@ class UpgradeSchema implements  UpgradeSchemaInterface
                     ],
                 ];
 
-                $connection = $installer->getConnection();
+                $connection = $setup->getConnection();
                 foreach ($columns as $name => $definition) {
                     $connection->addColumn($eavTable, $name, $definition);
                 }
